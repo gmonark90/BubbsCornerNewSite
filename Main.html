@@ -1,0 +1,2009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubb's Corner Pub & Grill | Food, Drinks & Leagues</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & THEMING --- */
+        :root {
+            --primary-yellow: #FFC800;
+            --yellow-hover: #e0b000;
+            --yellow-glow: rgba(255, 200, 0, 0.45);
+            --dark-bg: #0c0c0e;
+            --dark-surface: #141418;
+            --card-bg: rgba(20, 20, 25, 0.90);
+            --card-border: rgba(255, 200, 0, 0.22);
+            --card-border-hover: rgba(255, 200, 0, 0.6);
+            --text-light: #f5f5f7;
+            --text-muted: #a5a5b2;
+            --navbar-height: 75px;
+            --transition-fast: 0.25s ease;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --border-radius: 12px;
+        }
+
+        /* Reset & Global Settings */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: var(--navbar-height);
+        }
+
+        body {
+            background: linear-gradient(rgba(12, 12, 14, 0.93), rgba(12, 12, 14, 0.95)), 
+                        url('https://images.unsplash.com/photo-1575650681837-c0c2015df14a?auto=format&fit=crop&w=1920&q=80') center center / cover fixed no-repeat;
+            color: var(--text-light);
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 5px; border: 2px solid var(--dark-bg); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-yellow); }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        /* --- BUTTONS & INTERACTIVES --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.8rem;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            border: 2px solid transparent;
+            min-height: 48px;
+        }
+
+        .btn-yellow {
+            background-color: var(--primary-yellow);
+            color: #000;
+            border-color: var(--primary-yellow);
+            box-shadow: 0 4px 15px rgba(255, 200, 0, 0.25);
+        }
+
+        .btn-yellow:hover, .btn-yellow:focus-visible {
+            background-color: transparent;
+            color: var(--primary-yellow);
+            box-shadow: 0 0 20px var(--yellow-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: rgba(12, 12, 14, 0.65);
+            color: var(--text-light);
+            border-color: var(--text-light);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-outline:hover, .btn-outline:focus-visible {
+            border-color: var(--primary-yellow);
+            color: var(--primary-yellow);
+            background-color: rgba(0, 0, 0, 0.85);
+            transform: translateY(-2px);
+        }
+
+        /* --- NAVIGATION BAR --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: var(--navbar-height);
+            background-color: rgba(12, 12, 14, 0.94);
+            border-bottom: 3px solid var(--primary-yellow);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            transition: transform var(--transition-fast);
+        }
+
+        .nav-logo:hover img {
+            transform: scale(1.03);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.6rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: color var(--transition-fast);
+            text-transform: uppercase;
+            position: relative;
+            padding: 0.4rem 0;
+        }
+
+        .nav-links a:not(.btn)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-yellow);
+            transition: width var(--transition-fast);
+        }
+
+        .nav-links a:not(.btn):hover::after,
+        .nav-links a.active:not(.btn)::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-yellow);
+        }
+
+        .nav-links a.contact-highlight {
+            color: var(--primary-yellow);
+            font-weight: 800;
+            border: 1px solid var(--primary-yellow);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-yellow);
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .nav-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-smooth);
+        }
+        .nav-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            padding: 5.5rem 1.5rem;
+            background: 
+                linear-gradient(180deg, rgba(12, 12, 14, 0.72) 0%, rgba(12, 12, 14, 0.96) 100%), 
+                radial-gradient(circle at center, rgba(255, 200, 0, 0.32) 0%, rgba(12, 12, 14, 0.85) 75%),
+                url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1920&q=80') center center / cover no-repeat;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(88vh - var(--navbar-height));
+            border-bottom: 3px solid var(--primary-yellow);
+            box-shadow: inset 0 -40px 80px rgba(0, 0, 0, 0.95);
+        }
+
+        .hero-logo-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-logo {
+            width: clamp(220px, 30vw, 320px);
+            height: auto;
+            filter: drop-shadow(0 0 28px rgba(255, 200, 0, 0.5));
+            animation: heroFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroFloat {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-8px) scale(1.02); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            color: var(--primary-yellow);
+            margin-bottom: 0.8rem;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.98), 0 0 25px rgba(0,0,0,0.9);
+        }
+
+        .hero p {
+            font-size: clamp(1.05rem, 2vw, 1.35rem);
+            max-width: 680px;
+            color: var(--text-light);
+            margin-bottom: 2.2rem;
+            font-weight: 500;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.95);
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* --- SECTION STRUCTURES --- */
+        section {
+            padding: 5rem 1.5rem;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .title-wrapper {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: clamp(2.4rem, 4.5vw, 3.5rem);
+            color: var(--primary-yellow);
+            margin-top: 0.2rem;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
+        }
+
+        .divider {
+            height: 4px;
+            width: 80px;
+            background-color: var(--primary-yellow);
+            margin: 0.6rem auto 0;
+            border-radius: 2px;
+            box-shadow: 0 0 12px var(--yellow-glow);
+        }
+
+        /* --- SPECIALS SECTION & DYNAMIC DAY SELECTOR --- */
+        .specials-main-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .day-filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            background: rgba(14, 14, 18, 0.7);
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+        }
+
+        .tab-btn, .day-btn {
+            background: var(--card-bg);
+            color: var(--text-light);
+            border: 1px solid var(--card-border);
+            padding: 0.65rem 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all var(--transition-fast);
+            font-size: 0.9rem;
+            backdrop-filter: blur(6px);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .tab-btn.active, .tab-btn:hover,
+        .day-btn.active, .day-btn:hover {
+            background-color: var(--primary-yellow);
+            color: #000;
+            border-color: var(--primary-yellow);
+            box-shadow: 0 4px 15px var(--yellow-glow);
+        }
+
+        .day-btn.is-today-btn {
+            border: 2px solid var(--primary-yellow);
+            color: var(--primary-yellow);
+        }
+
+        .day-btn.is-today-btn.active {
+            background-color: var(--primary-yellow);
+            color: #000;
+        }
+
+        .specials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .specials-container {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .special-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 4px solid var(--primary-yellow);
+            padding: 1.8rem;
+            border-radius: var(--border-radius);
+            transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+            backdrop-filter: blur(8px);
+            position: relative;
+        }
+
+        .special-card.is-today-card {
+            border: 2px solid var(--primary-yellow);
+            border-top: 6px solid var(--primary-yellow);
+            box-shadow: 0 0 25px rgba(255, 200, 0, 0.25);
+        }
+
+        .special-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-border-hover);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+        }
+
+        .special-day {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--primary-yellow);
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .today-tag {
+            background: var(--primary-yellow);
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .specials-list {
+            list-style: none;
+        }
+
+        .specials-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.6rem 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+        }
+
+        .specials-list li:last-child {
+            border-bottom: none;
+        }
+
+        .item-title {
+            font-weight: 700;
+            color: #fff;
+            font-size: 1.02rem;
+        }
+
+        .item-subtext {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+            font-weight: 400;
+        }
+
+        .item-price-tag {
+            color: var(--primary-yellow);
+            font-weight: 800;
+            font-size: 1.15rem;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+
+        .badge-hh {
+            background: var(--primary-yellow);
+            color: #000;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 800;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- ONLINE ORDERING SECTION --- */
+        .online-ordering-section {
+            background: linear-gradient(135deg, rgba(255, 200, 0, 0.15) 0%, rgba(20, 20, 25, 0.95) 100%);
+            border: 2px solid var(--primary-yellow);
+            border-radius: var(--border-radius);
+            padding: clamp(2rem, 5vw, 4rem) 2rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .online-ordering-section::before {
+            content: '\f2d7';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 12rem;
+            color: var(--primary-yellow);
+            opacity: 0.08;
+            position: absolute;
+            top: -2rem;
+            right: -2rem;
+            line-height: 1;
+        }
+
+        .online-ordering-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary-yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .online-ordering-section p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* --- GALLERY SECTION --- */
+        .gallery-section {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.88)), 
+                        url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1920&q=80') center center / cover no-repeat;
+            border-radius: var(--border-radius);
+            padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 4vw, 2.5rem);
+            border: 2px solid var(--primary-yellow);
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            margin-bottom: 4rem;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        .gallery-header h2 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            color: var(--primary-yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-header p {
+            max-width: 600px;
+            color: var(--text-light);
+            font-size: 1.05rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            text-align: left;
+        }
+
+        .gallery-card {
+            background: rgba(14, 14, 18, 0.92);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: transform var(--transition-fast), border-color var(--transition-fast);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-yellow);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .gallery-img-wrapper {
+            height: 200px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            border-bottom: 2px solid var(--primary-yellow);
+        }
+
+        .gallery-card-body {
+            padding: 1.3rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .gallery-card-body h4 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .gallery-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .gallery-card-body p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-socials {
+            display: flex;
+            gap: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 0.8rem;
+        }
+
+        .gallery-socials button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color var(--transition-fast);
+        }
+
+        .gallery-socials button:hover {
+            color: var(--primary-yellow);
+        }
+
+        /* --- LEAGUE SECTION (POOL & DARTS) --- */
+        .league-section {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.88)), 
+                        url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=1200&q=80') center center / cover no-repeat;
+            border-radius: var(--border-radius);
+            padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 4vw, 2.5rem);
+            border: 2px solid var(--primary-yellow);
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+        }
+
+        .league-section h2 {
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            color: var(--primary-yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .league-section p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            color: var(--text-light);
+        }
+
+        .league-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .league-card {
+            background: rgba(18, 18, 22, 0.92);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            transition: transform var(--transition-fast), border-color var(--transition-fast);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .league-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-yellow);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .league-icon {
+            font-size: 3.5rem;
+            color: var(--primary-yellow);
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px var(--yellow-glow));
+        }
+
+        .league-card h3 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+
+        .league-card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            font-size: 0.95rem;
+        }
+
+        /* --- EVENTS SECTION --- */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(8px);
+            transition: transform var(--transition-fast), border-color var(--transition-fast);
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-yellow);
+        }
+
+        .event-img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+        }
+
+        .event-date {
+            background: var(--primary-yellow);
+            color: #000;
+            padding: 0.5rem 1rem;
+            font-weight: 800;
+            text-align: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+        }
+
+        .event-body {
+            padding: 1.6rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.2rem;
+        }
+
+        .event-body h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.4rem;
+            color: #fff;
+        }
+
+        .event-time {
+            color: var(--primary-yellow);
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .event-body p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #060608;
+            border-top: 3px solid var(--primary-yellow);
+            padding: 4rem 1.5rem 2rem;
+            color: var(--text-light);
+        }
+
+        .footer-grid {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            max-width: 190px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col h4 {
+            color: var(--primary-yellow);
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .hours-list, .contact-list {
+            list-style: none;
+        }
+
+        .hours-list li, .contact-list li {
+            margin-bottom: 0.65rem;
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .contact-list li {
+            justify-content: flex-start;
+            gap: 0.8rem;
+        }
+
+        .contact-list i {
+            color: var(--primary-yellow);
+            margin-top: 0.2rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.2rem;
+        }
+
+        .social-icons a {
+            width: 42px;
+            height: 42px;
+            background-color: rgba(255,255,255,0.05);
+            color: var(--primary-yellow);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-yellow);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.8rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- MODAL POPUPS --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #141418;
+            border: 2px solid var(--primary-yellow);
+            padding: clamp(1.8rem, 4vw, 2.5rem);
+            border-radius: var(--border-radius);
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            transform: translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            color: var(--text-muted);
+            font-size: 1.8rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            line-height: 1;
+            transition: color var(--transition-fast);
+        }
+
+        .close-modal:hover {
+            color: var(--primary-yellow);
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--dark-bg);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color var(--transition-fast);
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-yellow);
+            box-shadow: 0 0 8px rgba(255, 200, 0, 0.3);
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 900px) {
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background-color: #0c0c0e;
+                border-left: 2px solid var(--primary-yellow);
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                padding: 2rem;
+                transition: right var(--transition-smooth);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a:not(.btn)::after {
+                display: none;
+            }
+
+            .slider-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            .slider-prev {
+                left: 0.5rem;
+            }
+            .slider-next {
+                right: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACKDROP FOR MOBILE MENU -->
+    <div class="nav-backdrop" id="navBackdrop"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo" aria-label="Bubb's Corner Home">
+            <img src="input_file_3.png" alt="Bubb's Corner Pub & Grill Header Logo">
+        </a>
+        
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#specials" class="nav-item">Specials</a></li>
+            <li><a href="#menu" class="nav-item">Food & Drinks</a></li>
+            <li><a href="#online-ordering" class="nav-item">Order Online</a></li>
+            <li><a href="#gallery" class="nav-item">Gallery</a></li>
+            <li><a href="#league" class="nav-item">Leagues</a></li>
+            <li><a href="#events" class="nav-item">Events</a></li>
+            <li><a href="#contact" class="nav-item contact-highlight" id="contactUsNavBtn">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="hero-logo-container">
+            <img src="input_file_2.png" alt="Bubb's Corner Bottle Cap Logo" class="hero-logo">
+        </div>
+        <h1>Good Times. Great Eats. Cold Drinks.</h1>
+        <p>Your ultimate neighborhood sports bar, grill & league action destination. Order your favorites online for quick pickup or dine in!</p>
+        <div class="hero-btns">
+            <a href="#online-ordering" class="btn btn-yellow" style="font-size: 1.1rem;"><i class="fas fa-cart-shopping"></i> Order Online Now</a>
+            <a href="#menu" class="btn btn-outline"><i class="fas fa-file-pdf"></i> View Menus (PDF)</a>
+        </div>
+    </header>
+
+    <!-- ONLINE ORDERING PROMO SECTION -->
+    <section id="online-ordering" class="online-ordering-section">
+        <div class="title-wrapper" style="margin-bottom: 2rem;">
+            <span class="section-subtitle">Quick & Easy Pickup</span>
+            <h2 class="section-title">Order Online</h2>
+            <div class="divider"></div>
+        </div>
+        <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 1rem;">Skip the Wait. Order Directly.</h3>
+        <p>Craving our famous Smash Burgers, Jumbo Wings, or craft beer buckets? Order ahead online and have your meal ready for fast curbside pickup or quick table service when you arrive at the bar!</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="#" class="btn btn-yellow" style="font-size: 1.1rem; padding: 1rem 2rem;"><i class="fas fa-hamburger"></i> Order Food Online</a>
+            <a href="#" class="btn btn-outline" style="font-size: 1.1rem; padding: 1rem 2rem; border-color: var(--primary-yellow); color: var(--primary-yellow); background: rgba(0,0,0,0.4);"><i class="fas fa-beer"></i> Order Drinks & Gear</a>
+        </div>
+    </section>
+
+    <!-- SPECIALS SECTION -->
+    <section id="specials">
+        <div class="title-wrapper">
+            <span class="section-subtitle">Save Big & Eat Well</span>
+            <!-- Updated Title with ID for dynamic text change -->
+            <h2 class="section-title" id="dynamicSpecialsTitle">Today's Weekly Specials</h2>
+            <div class="divider"></div>
+        </div>
+
+        <!-- MAIN CATEGORY TABS -->
+        <div class="specials-main-tabs" role="tablist">
+            <button class="tab-btn active" data-target="weekly-specials" role="tab" aria-selected="true"><i class="fas fa-calendar-day"></i> Today's Weekly Special</button>
+            <button class="tab-btn" data-target="daily-specials" role="tab" aria-selected="false"><i class="fas fa-star"></i> Everyday Drink Specials</button>
+            <button class="tab-btn" data-target="happy-hour" role="tab" aria-selected="false"><i class="fas fa-clock"></i> Happy Hour (3-5 PM Mon-Fri)</button>
+        </div>
+
+        <!-- DYNAMIC DAY-OF-THE-WEEK SELECTOR BAR -->
+        <div class="day-filter-bar" id="dayFilterBar">
+            <button class="day-btn is-today-btn active" data-day="today"><i class="fas fa-star"></i> Today's Special</button>
+            <button class="day-btn" data-day="Monday">Mon</button>
+            <button class="day-btn" data-day="Tuesday">Tue</button>
+            <button class="day-btn" data-day="Wednesday">Wed</button>
+            <button class="day-btn" data-day="Thursday">Thu</button>
+            <button class="day-btn" data-day="Friday">Fri</button>
+            <button class="day-btn" data-day="Saturday">Sat</button>
+            <button class="day-btn" data-day="Sunday">Sun</button>
+            <button class="day-btn" data-day="all"><i class="fas fa-layer-group"></i> View Full Week</button>
+        </div>
+
+        <!-- WEEKLY SPECIALS GRID (AUTOMATICALLY FILTERS TO TODAY ON LOAD) -->
+        <div id="weekly-specials" class="specials-grid specials-container">
+            <div class="special-card" data-day="Monday">
+                <div class="special-day">Monday</div>
+                <ul class="specials-list">
+                    <li>
+                        <span class="item-title">Monte Cristo Sandwich</span>
+                        <span class="item-price-tag">$12.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Mule Monday</span>
+                        <span class="item-price-tag">$7.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Miller & Coors Pint</span>
+                        <span class="item-price-tag">$3.00</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="special-card" data-day="Tuesday">
+                <div class="special-day">Tuesday</div>
+                <ul class="specials-list">
+                    <li>
+                        <span class="item-title">House Margaritas</span>
+                        <span class="item-price-tag">$5.50</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Modelo Mini Pitchers</span>
+                        <span class="item-price-tag">$10.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Micheladas</span>
+                        <span class="item-price-tag">$6.50</span>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="item-title">3 Tacos</span>
+                            <span class="item-subtext">Served with Chips & Salsa</span>
+                        </div>
+                        <span class="item-price-tag">$8.00</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="special-card" data-day="Wednesday">
+                <div class="special-day">Wednesday</div>
+                <ul class="specials-list">
+                    <li>
+                        <span class="item-title">House Old Fashioned</span>
+                        <span class="item-price-tag">$6.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Wine Bottles</span>
+                        <span class="item-price-tag">1/2 OFF</span>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="item-title">Chicken Sandwiches</span>
+                            <span class="item-subtext">CKN BLT, Nashville, Parm, Philly Chicken, or Blackened Avocado</span>
+                        </div>
+                        <span class="item-price-tag">$8.00</span>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="item-title">Shots Special</span>
+                            <span class="item-subtext">Jameson, Jack Daniel's, Crown Royal</span>
+                        </div>
+                        <span class="item-price-tag">$4.00</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="special-card" data-day="Thursday">
+                <div class="special-day">Thursday</div>
+                <ul class="specials-list">
+                    <li>
+                        <span class="item-title">Miller & Coors Pints</span>
+                        <span class="item-price-tag">$3.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">White Claws</span>
+                        <span class="item-price-tag">$4.00</span>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="item-title">Burgers</span>
+                            <span class="item-subtext">Classic or Smash Burger</span>
+                        </div>
+                        <span class="item-price-tag">$8.00</span>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="item-title">You Call It Tequila</span>
+                            <span class="item-subtext">Non-top shelf selections</span>
+                        </div>
+                        <span class="item-price-tag">$5.50</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="special-card" data-day="Friday">
+                <div class="special-day">Friday</div>
+                <ul class="specials-list">
+                    <li>
+                        <span class="item-title">Fish & Chips</span>
+                        <span class="item-price-tag">$10.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Fish Tacos</span>
+                        <span class="item-price-tag">$10.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Clams</span>
+                        <span class="item-price-tag">$10.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Domestic Draft (22oz)</span>
+                        <span class="item-price-tag">$4.50</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Sobieski Vodka Mixers</span>
+                        <span class="item-price-tag">$5.50</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="special-card" data-day="Saturday">
+                <div class="special-day">Saturday</div>
+                <ul class="specials-list">
+                    <li>
+                        <span class="item-title">Pasta Special</span>
+                        <span class="item-price-tag">$10.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Mimosas</span>
+                        <span class="item-price-tag">$7.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Wine Bottles</span>
+                        <span class="item-price-tag">1/2 OFF</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Miller & Coors Mini Pitchers</span>
+                        <span class="item-price-tag">$7.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Bloody Marys</span>
+                        <span class="item-price-tag">$7.00</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="special-card" data-day="Sunday">
+                <div class="special-day">Sunday</div>
+                <ul class="specials-list">
+                    <li>
+                        <div>
+                            <span class="item-title">6 CT Wings</span>
+                            <span class="item-subtext">Served with Fries</span>
+                        </div>
+                        <span class="item-price-tag">$8.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Mimosas</span>
+                        <span class="item-price-tag">$7.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Bloody Marys</span>
+                        <span class="item-price-tag">$7.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Import Mini Pitchers</span>
+                        <span class="item-price-tag">$11.00</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- DAILY SPECIALS GRID -->
+        <div id="daily-specials" class="specials-grid specials-container" style="display: none;">
+            <div class="special-card" style="grid-column: 1 / -1;">
+                <div class="special-day">Everyday Drink Specials</div>
+                <ul class="specials-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem 2rem;">
+                    <li>
+                        <span class="item-title"><i class="fas fa-beer" style="color:var(--primary-yellow); margin-right: 0.5rem;"></i> Domestic Beer Buckets</span>
+                        <span class="item-price-tag">$15.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title"><i class="fas fa-beer" style="color:var(--primary-yellow); margin-right: 0.5rem;"></i> Import Beer Buckets</span>
+                        <span class="item-price-tag">$20.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title"><span style="color:var(--primary-yellow); font-size:1.1rem; margin-right:0.4rem;">🥭</span> Mango Kart</span>
+                        <span class="item-price-tag">$6.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title"><i class="fas fa-glass-whiskey" style="color:var(--primary-yellow); margin-right: 0.5rem;"></i> Montucky Cold Snacks</span>
+                        <span class="item-price-tag">$4.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title"><i class="fas fa-glass-martini-alt" style="color:var(--primary-yellow); margin-right: 0.5rem;"></i> Seltzers Buckets</span>
+                        <span class="item-price-tag">$20.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title"><i class="fas fa-beer" style="color:var(--primary-yellow); margin-right: 0.5rem;"></i> 312 Goose Island Beer</span>
+                        <span class="item-price-tag">$4.00</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- HAPPY HOUR GRID -->
+        <div id="happy-hour" class="specials-grid specials-container" style="display: none;">
+            <div class="special-card">
+                <div class="special-day">
+                    Happy Hour Eats
+                    <span class="badge-hh">3 PM - 5 PM (Mon - Fri)</span>
+                </div>
+                <ul class="specials-list">
+                    <li>
+                        <span class="item-title">Loaded Waffle Fries</span>
+                        <span class="item-price-tag">$6.00</span>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="item-title">Sliders</span>
+                            <span class="item-subtext">Meatball or Beef</span>
+                        </div>
+                        <span class="item-price-tag">$12.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Philly Chicken Sandwich</span>
+                        <span class="item-price-tag">$8.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Philly Cheesesteak</span>
+                        <span class="item-price-tag">$8.00</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="special-card">
+                <div class="special-day">
+                    Happy Hour Drinks
+                    <span class="badge-hh">3 PM - 5 PM (Mon - Fri)</span>
+                </div>
+                <ul class="specials-list">
+                    <li>
+                        <div>
+                            <span class="item-title">Tall Boys (16oz)</span>
+                            <span class="item-subtext">Busch, Miller, PBR, Old Style</span>
+                        </div>
+                        <span class="item-price-tag">$2.50</span>
+                    </li>
+                    <li>
+                        <span class="item-title">All Domestic Bottles</span>
+                        <span class="item-price-tag">$2.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">House Wine 90+ (Glass)</span>
+                        <span class="item-price-tag">$5.00</span>
+                    </li>
+                    <li>
+                        <span class="item-title">Seltzers (Cans)</span>
+                        <span class="item-price-tag">$4.00</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="gallery" class="gallery-section">
+        <div class="gallery-header">
+            <div>
+                <span class="section-subtitle" style="color: var(--primary-yellow);">Social Feed & Bar News</span>
+                <h2 class="section-title" style="margin-top: 0.2rem;">Gallery & What's Going On</h2>
+                <div class="divider" style="margin: 0.6rem auto 0;"></div>
+            </div>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-card">
+                <div class="gallery-img-wrapper" style="background-image: url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="gallery-card-body">
+                    <h4>Smash Burger Night Success</h4>
+                    <span class="gallery-meta">Posted by Sarah K. • 2 hours ago</span>
+                    <p>"The Corner Smash was absolutely incredible! Best burger in town, hands down."</p>
+                    <div class="gallery-socials">
+                        <button class="like-btn" onclick="likePost(this)"><i class="fas fa-thumbs-up"></i> Like <span class="count">14</span></button>
+                        <button class="comment-btn"><i class="fas fa-comment"></i> Comment</button>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-card">
+                <div class="gallery-img-wrapper" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="gallery-card-body">
+                    <h4>Friday Night Live Music</h4>
+                    <span class="gallery-meta">Posted by Bubb's Corner • 1 day ago</span>
+                    <p>"The crowd was electric last night! Thanks to everyone who came out to jam."</p>
+                    <div class="gallery-socials">
+                        <button class="like-btn" onclick="likePost(this)"><i class="fas fa-thumbs-up"></i> Like <span class="count">42</span></button>
+                        <button class="comment-btn"><i class="fas fa-comment"></i> Comment</button>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-card">
+                <div class="gallery-img-wrapper" style="background-image: url('https://images.unsplash.com/photo-1575650681837-c0c2015df14a?auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="gallery-card-body">
+                    <h4>Pool League Champions Crowned</h4>
+                    <span class="gallery-meta">Posted by Pool Admin • 3 days ago</span>
+                    <p>"What an intense tournament! Congratulations to 'The Corner Sharks' for taking home the grand prize."</p>
+                    <div class="gallery-socials">
+                        <button class="like-btn" onclick="likePost(this)"><i class="fas fa-thumbs-up"></i> Like <span class="count">88</span></button>
+                        <button class="comment-btn"><i class="fas fa-comment"></i> Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENUS SECTION -->
+    <section id="menu">
+        <div class="title-wrapper">
+            <span class="section-subtitle">Delicious Eats & Cold Brews</span>
+            <h2 class="section-title">Food & Drink Menus</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="menu-container">
+            <div class="menu-nav">
+                <button class="menu-nav-btn active" data-menu="food-pdf-tab"><i class="fas fa-utensils"></i> Food Menu (PDF)</button>
+                <button class="menu-nav-btn" data-menu="drinks-pdf-tab"><i class="fas fa-beer"></i> Drink Menu (PDF)</button>
+            </div>
+            <div id="food-pdf-tab" class="menu-tab-content">
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Smash Burger" class="product-img">
+                        <div class="product-card-body">
+                            <h4>Smash & Pub Burgers</h4>
+                            <p>Seasoned beef patties topped with cheese, smoked bacon, & Bubb's sauce.</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=600&q=80" alt="Jumbo Wings" class="product-img">
+                        <div class="product-card-body">
+                            <h4>Jumbo Pub Wings</h4>
+                            <p>Crispy traditional wings tossed in Mango Habanero, Buffalo, or Honey BBQ.</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1579208030886-b937da0925dc?auto=format&fit=crop&w=600&q=80" alt="Fish & Chips" class="product-img">
+                        <div class="product-card-body">
+                            <h4>Beer Battered Fish & Chips</h4>
+                            <p>Golden fried cod fillet served with crispy seasoned fries & house coleslaw.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pdf-viewer-card">
+                    <i class="fas fa-file-pdf pdf-icon" style="font-size: 4rem; color: var(--primary-yellow);"></i>
+                    <div>
+                        <h3 style="font-size: 2rem; color: #fff;">BUBB'S FOOD MENU (PDF)</h3>
+                        <p style="color: var(--text-muted); max-width: 500px;">View our complete food menu below or tap the yellow button to open/download on your device.</p>
+                    </div>
+                    <a href="menu.pdf" target="_blank" rel="noopener" class="btn btn-yellow" style="font-size: 1.05rem; padding: 0.8rem 1.5rem;">
+                        <i class="fas fa-download"></i> Open / Download Food Menu PDF
+                    </a>
+                    <div class="pdf-frame-container">
+                        <iframe src="menu.pdf#toolbar=0" title="Bubb's Corner Food Menu PDF"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div id="drinks-pdf-tab" class="menu-tab-content" style="display: none;">
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=600&q=80" alt="Draft Beers" class="product-img">
+                        <div class="product-card-body">
+                            <h4>Ice Cold Craft & Drafts</h4>
+                            <p>Rotating local craft IPAs, Miller, Coors, Yuengling, and Modelo on tap.</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80" alt="Signature Cocktails" class="product-img">
+                        <div class="product-card-body">
+                            <h4>Signature Cocktails</h4>
+                            <p>Corner Pocket Mules, House Margaritas, and strong Break & Run Teas.</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80" alt="Beer Buckets" class="product-img">
+                        <div class="product-card-body">
+                            <h4>Ice Buckets & Seltzers</h4>
+                            <p>5-Can Mix & Match Domestic, Import, and Seltzer Buckets for the table.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pdf-viewer-card">
+                    <i class="fas fa-file-pdf pdf-icon" style="font-size: 4rem; color: var(--primary-yellow);"></i>
+                    <div>
+                        <h3 style="font-size: 2rem; color: #fff;">BUBB'S DRINK MENU (PDF)</h3>
+                        <p style="color: var(--text-muted); max-width: 500px;">View our complete house drink menu below or tap the yellow button to open/download on your device.</p>
+                    </div>
+                    <a href="drink-menu.pdf" target="_blank" rel="noopener" class="btn btn-yellow" style="font-size: 1.05rem; padding: 0.8rem 1.5rem;">
+                        <i class="fas fa-download"></i> Open / Download Drink Menu PDF
+                    </a>
+                    <div class="pdf-frame-container">
+                        <iframe src="drink-menu.pdf#toolbar=0" title="Bubb's Corner Drink Menu PDF"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEAGUE SECTION -->
+    <section id="league" class="league-section">
+        <div class="title-wrapper">
+            <span class="section-subtitle" style="color: var(--primary-yellow);">Competitive & Fun</span>
+            <h2 class="section-title">Join Our Leagues</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="league-grid">
+            <div class="league-card">
+                <i class="fas fa-8-ball league-icon"></i>
+                <h3>Pool League</h3>
+                <p>Official APA & TAP sanctioned 8-ball and 9-ball leagues. Weekly matches, handicap systems, and cash prizes for top teams.</p>
+                <ul style="text-align: left; margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.8;">
+                    <li><i class="fas fa-check" style="color: var(--primary-yellow); margin-right: 0.5rem;"></i> Mondays & Wednesdays</li>
+                    <li><i class="fas fa-check" style="color: var(--primary-yellow); margin-right: 0.5rem;"></i> Cash payouts & trophies</li>
+                    <li><i class="fas fa-check" style="color: var(--primary-yellow); margin-right: 0.5rem;"></i> Player drink discounts</li>
+                </ul>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScPoolLeagueFormPlaceholder/viewform" target="_blank" rel="noopener" class="btn btn-yellow" style="width: 100%; justify-content: center;"><i class="fas fa-user-plus"></i> Register Pool Team</a>
+            </div>
+            <div class="league-card">
+                <i class="fas fa-bullseye league-icon"></i>
+                <h3>Dart League</h3>
+                <p>Weekly cricket and 501 dart tournaments. Play solo or build a team. Great cash payouts, drink specials, and high-flying fun.</p>
+                <ul style="text-align: left; margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.8;">
+                    <li><i class="fas fa-check" style="color: var(--primary-yellow); margin-right: 0.5rem;"></i> Tuesdays & Thursdays</li>
+                    <li><i class="fas fa-check" style="color: var(--primary-yellow); margin-right: 0.5rem;"></i> Steel tip & Soft tip options</li>
+                    <li><i class="fas fa-check" style="color: var(--primary-yellow); margin-right: 0.5rem;"></i> Weekly jackpots</li>
+                </ul>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScDartLeagueFormPlaceholder/viewform" target="_blank" rel="noopener" class="btn btn-yellow" style="width: 100%; justify-content: center;"><i class="fas fa-user-plus"></i> Register Dart Team</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVENTS SECTION -->
+    <section id="events">
+        <div class="title-wrapper">
+            <span class="section-subtitle">What's Happening At Bubb's</span>
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="events-grid">
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=600&q=80" alt="Trivia Night" class="event-img">
+                <div class="event-date">EVERY TUESDAY</div>
+                <div class="event-body">
+                    <div>
+                        <h3>Pub Trivia Night</h3>
+                        <div class="event-time"><i class="fas fa-clock"></i> 7:30 PM - 9:30 PM</div>
+                        <p>Bring your crew and compete for bar tabs, prizes, and bragging rights! Hosted live weekly.</p>
+                    </div>
+                    <a href="#contact" class="btn btn-outline" style="text-align: center;">Reserve Table</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80" alt="Live Music" class="event-img">
+                <div class="event-date">EVERY FRIDAY NIGHT</div>
+                <div class="event-body">
+                    <div>
+                        <h3>Live Music & Local Bands</h3>
+                        <div class="event-time"><i class="fas fa-clock"></i> 8:30 PM - LATE</div>
+                        <p>Rock out with top local bands and acoustic performers on our main bar stage.</p>
+                    </div>
+                    <a href="#contact" class="btn btn-outline" style="text-align: center;">See Lineup</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1615818499660-30bb5816e1c7?auto=format&fit=crop&w=600&q=80" alt="Pool Tournament" class="event-img">
+                <div class="event-date">SATURDAY NIGHTS</div>
+                <div class="event-body">
+                    <div>
+                        <h3>8-Ball Cash Tournament</h3>
+                        <div class="event-time"><i class="fas fa-clock"></i> Sign-ups 6 PM | Starts 7 PM</div>
+                        <p>$10 Entry fee, double elimination format. 100% Payout + House matching cash prize!</p>
+                    </div>
+                    <a href="#league" class="btn btn-yellow" style="text-align: center;">Sign Up Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <img src="input_file_1.png" alt="Bubb's Corner Logo" class="footer-logo">
+                <p>Bubb's Corner Pub & Grill is your neighborhood spot for fresh food, cold drinks, live sports, and competitive leagues.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Hours of Operation</h4>
+                <ul class="hours-list">
+                    <li><span>Mon - Thu:</span> <span>11:00 AM - 12:00 AM</span></li>
+                    <li><span>Friday:</span> <span>11:00 AM - 2:00 AM</span></li>
+                    <li><span>Saturday:</span> <span>11:00 AM - 2:00 AM</span></li>
+                    <li><span>Sunday:</span> <span>11:00 AM - 11:00 PM</span></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Find & Contact Us</h4>
+                <ul class="contact-list">
+                    <li><i class="fas fa-map-marker-alt"></i> <span>123 Main Corner St, Your City, ST</span></li>
+                    <li><i class="fas fa-phone"></i> <span>(555) 888-BUBB</span></li>
+                    <li><i class="fas fa-envelope"></i> <span>info@bubbscornerpub.com</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; <span id="year"></span> Bubb's Corner Pub & Grill. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- CONTACT US MODAL -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeContactModalBtn">&times;</button>
+            <h3 style="font-size: 2rem; color: var(--primary-yellow); margin-bottom: 1rem;">Contact & Inquiry Form</h3>
+            <form id="contactUsForm" onsubmit="return handleSubmit(event)">
+                <input type="hidden" name="_subject" value="New Contact Form Submission from Bubb's Corner">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000">
+                </div>
+                <div class="form-group">
+                    <label for="inquiryType">Inquiry Type</label>
+                    <select id="inquiryType" name="inquiryType" required>
+                        <option value="">Select an option...</option>
+                        <option value="general">General Inquiry</option>
+                        <option value="pool">Pool League Registration</option>
+                        <option value="dart">Dart League Registration</option>
+                        <option value="event">Private Event / Booking</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message Details</label>
+                    <textarea id="message" name="message" rows="4" placeholder="How can we help you today?" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-yellow" style="width: 100%; margin-top: 0.5rem;" id="submitContactBtn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        /* --- MOBILE NAV TOGGLE --- */
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+        const navBackdrop = document.getElementById('navBackdrop');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        function toggleMobileNav(show) {
+            const isActive = show !== undefined ? show : !navLinks.classList.contains('active');
+            navLinks.classList.toggle('active', isActive);
+            navBackdrop.classList.toggle('active', isActive);
+            document.body.style.overflow = isActive ? 'hidden' : '';
+            
+            const icon = mobileToggle.querySelector('i');
+            if (isActive) { icon.classList.replace('fa-bars', 'fa-xmark'); }
+            else { icon.classList.replace('fa-xmark', 'fa-bars'); }
+        }
+
+        mobileToggle.addEventListener('click', () => toggleMobileNav());
+        navBackdrop.addEventListener('click', () => toggleMobileNav(false));
+        navItems.forEach(item => {
+            item.addEventListener('click', () => toggleMobileNav(false));
+        });
+
+        /* --- SCROLLSPY --- */
+        const sections = document.querySelectorAll('section, header');
+        const navAnchors = document.querySelectorAll('.nav-links a.nav-item');
+        const observerOptions = { root: null, rootMargin: '-20% 0px -60% 0px', threshold: 0 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    navAnchors.forEach(anchor => {
+                        if (anchor.getAttribute('href') === `#${currentId}`) {
+                            anchor.classList.add('active');
+                        } else { anchor.classList.remove('active'); }
+                    });
+                }
+            });
+        }, observerOptions);
+        sections.forEach(section => observer.observe(section));
+
+        /* --- SPECIALS TAB SWITCHING --- */
+        const specialsButtons = document.querySelectorAll('.specials-main-tabs .tab-btn');
+        const specialsContainers = document.querySelectorAll('.specials-container');
+        specialsButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.target;
+                specialsButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                specialsContainers.forEach(container => {
+                    container.id === targetId ? container.style.display = 'grid' : container.style.display = 'none';
+                });
+            });
+        });
+
+        /* --- DAY FILTER LOGIC --- */
+        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const todayIndex = new Date().getDay();
+        const currentDayName = dayNames[todayIndex];
+        const dayCards = document.querySelectorAll('#weekly-specials .special-card');
+        const dayButtons = document.querySelectorAll('#dayFilterBar .day-btn');
+
+        dayCards.forEach(card => {
+            if (card.dataset.day === currentDayName) {
+                card.classList.add('is-today-card');
+                const header = card.querySelector('.special-day');
+                if (header && !header.querySelector('.today-tag')) {
+                    const tag = document.createElement('span');
+                    tag.className = 'today-tag';
+                    tag.textContent = "TODAY'S SPECIAL";
+                    header.appendChild(tag);
+                }
+            }
+        });
+
+        const todayBtn = document.querySelector('.day-btn[data-day="today"]');
+        if (todayBtn) { todayBtn.innerHTML = `<i class="fas fa-star"></i> Today (${currentDayName})`; }
+
+        function filterByDay(dayToFilter) {
+            dayCards.forEach(card => {
+                if (dayToFilter === 'all') { card.style.display = 'block'; }
+                else if (dayToFilter === 'today') { card.style.display = card.dataset.day === currentDayName ? 'block' : 'none'; }
+                else { card.style.display = card.dataset.day === dayToFilter ? 'block' : 'none'; }
+            });
+        }
+        filterByDay('today');
+
+        dayButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                dayButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterByDay(btn.dataset.day);
+            });
+        });
+
+        /* --- DYNAMIC SECTION TITLE UPDATES --- */
+        const specialsTitle = document.getElementById('dynamicSpecialsTitle');
+
+        function updateSpecialsTitle() {
+            const activeTab = document.querySelector('.specials-main-tabs .tab-btn.active');
+            const tabText = activeTab ? activeTab.textContent.trim() : "Today's Weekly Specials";
+
+            const activeDayBtn = document.querySelector('#dayFilterBar .day-btn.active');
+            let dayText = "";
+
+            if (activeDayBtn) {
+                const dayVal = activeDayBtn.dataset.day;
+                if (dayVal === 'today') {
+                    dayText = ` - ${currentDayName}`;
+                } else if (dayVal !== 'all') {
+                    dayText = ` - ${dayVal}`;
+                } else if (dayVal === 'all') {
+                    dayText = " - Full Week";
+                }
+            }
+
+            specialsTitle.textContent = tabText + dayText;
+        }
+
+        // --- 1. LISTENER FOR MAIN TABS ---
+        specialsButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                specialsButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const targetId = button.dataset.target;
+                specialsContainers.forEach(container => {
+                    container.id === targetId ? container.style.display = 'grid' : container.style.display = 'none';
+                });
+
+                if (targetId === 'weekly-specials') {
+                    document.getElementById('dayFilterBar').style.display = 'flex';
+                } else {
+                    document.getElementById('dayFilterBar').style.display = 'none';
+                }
+
+                updateSpecialsTitle();
+            });
+        });
+
+        // --- 2. LISTENER FOR DAY FILTERS ---
+        dayButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                dayButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterByDay(btn.dataset.day);
+                updateSpecialsTitle();
+            });
+        });
+
+        // Initialize title on page load
+        updateSpecialsTitle();
+
+        /* --- MENU TAB SWITCHING --- */
+        const menuNavButtons = document.querySelectorAll('.menu-nav-btn');
+        const menuTabContents = document.querySelectorAll('.menu-tab-content');
+        menuNavButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetMenu = button.dataset.menu;
+                menuNavButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                menuTabContents.forEach(content => {
+                    content.id === targetMenu ? content.style.display = 'block' : content.style.display = 'none';
+                });
+            });
+        });
+
+        /* --- MODAL HANDLING --- */
+        const contactModal = document.getElementById('contactModal');
+        const contactUsNavBtn = document.getElementById('contactUsNavBtn');
+        const closeContactModalBtn = document.getElementById('closeContactModalBtn');
+
+        function openModal() {
+            contactModal.classList.add('active');
+            contactModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            contactModal.classList.remove('active');
+            contactModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        contactUsNavBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+        closeContactModalBtn.addEventListener('click', closeModal);
+        contactModal.addEventListener('click', (event) => {
+            if (event.target === contactModal) { closeModal(); }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && contactModal.classList.contains('active')) { closeModal(); }
+        });
+
+        /* --- FORM SUBMISSION --- */
+        window.handleSubmit = async function(event) {
+            event.preventDefault();
+            const submitBtn = document.getElementById('submitContactBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            const formData = new FormData(contactUsForm);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/send-message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert("Thank you! Your message has been sent successfully. We will contact you shortly.");
+                    contactUsForm.reset();
+                    closeModal();
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                alert("Failed to connect to the server. Please try again later.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Send Message';
+            }
+        };
+
+        /* --- GALLERY LIKE BUTTON --- */
+        window.likePost = function(button) {
+            const countSpan = button.querySelector('.count');
+            let currentLikes = parseInt(countSpan.textContent);
+            if (button.classList.contains('liked')) {
+                button.classList.remove('liked');
+                currentLikes--;
+            } else {
+                button.classList.add('liked');
+                currentLikes++;
+            }
+            countSpan.textContent = currentLikes;
+            button.style.color = button.classList.contains('liked') ? 'var(--primary-yellow)' : '';
+        };
+    </script>
+</body>
+</html>
+<style>
+        /* --- FIXED MENUS SECTION CSS --- */
+        .menu-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+        }
+
+        .menu-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .menu-nav-btn {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 0.2rem 0.8rem;
+            border-bottom: 3px solid transparent;
+        }
+
+        .menu-nav-btn.active, .menu-nav-btn:hover {
+            color: var(--primary-yellow);
+            border-bottom-color: var(--primary-yellow);
+        }
+
+        /* Product Grid - Fixed Card Sizes */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .product-card {
+            background: rgba(14, 14, 18, 0.9);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-yellow);
+        }
+
+        /* Fixed image size to prevent layout breakage */
+        .product-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--primary-yellow);
+            display: block;
+        }
+
+        .product-card-body {
+            padding: 1.2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card-body h4 {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-card-body p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* PDF Viewer Card - Fixed Layout */
+        .pdf-viewer-card {
+            background: rgba(12, 12, 14, 0.8);
+            border: 2px dashed var(--primary-yellow);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .pdf-frame-container {
+            width: 100%;
+            height: 500px; /* Fixed height for PDF viewer */
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #101014;
+            position: relative;
+        }
+
+        .pdf-frame-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* Responsive adjustments for PDF viewer */
+        @media (max-width: 768px) {
+            .pdf-frame-container {
+                height: 350px; /* Smaller PDF viewer on mobile */
+            }
+        }
+</style>
